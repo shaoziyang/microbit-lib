@@ -30,22 +30,22 @@
 
 ## API
 
-on()  
+**on()**  
 : turn on LCD  
 
-off()  
+**off()**  
 : turn off LCD
 
-backlight(on)  
+**backlight(on)**  
 : 0 turn of backlight  
 1 turn on backlight
 
-char(ch, x, y)
+**char(ch, x, y)**  
 : show a character in given position  
 x, 0-15  
 y, 0-1
 
-puts(s, x, y)
+**puts(s, x, y)**  
 : show a string in given position  
 x, 0-15  
 y, 0-1
