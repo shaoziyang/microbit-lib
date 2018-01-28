@@ -30,23 +30,26 @@
 
 ## API
 
-**on()**  
-: turn on LCD  
+* **on()**  
+turn on LCD  
 
-**off()**  
-: turn off LCD
+* **off()**  
+turn off LCD
 
-**backlight(on)**  
-: 0 turn of backlight  
+* **clear()**  
+clear display
+
+* **backlight(on)**  
+0 turn of backlight  
 1 turn on backlight
 
-**char(ch, x, y)**  
-: show a character in given position  
+* **char(ch, x, y)**  
+show a character in given position  
 x, 0-15  
 y, 0-1
 
-**puts(s, x, y)**  
-: show a string in given position  
+* **puts(s, x, y)**  
+show a string in given position  
 x, 0-15  
 y, 0-1
 
