@@ -65,4 +65,4 @@ l=LCD1620()
 l.puts('Hello microbit!')
 ```
 
-![](file:///W:/Documents/projects/microbit-lib/lcd/I2C_LCD1602/mb_i2c_lcd1602.jpg)
+![](mb_i2c_lcd1602.jpg)
