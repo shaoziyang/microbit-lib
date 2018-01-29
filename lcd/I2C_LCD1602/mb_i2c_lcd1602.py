@@ -59,6 +59,12 @@ class LCD1620():
     def off(self):
         self.setcmd(0x08)
 
+    def shl(():
+        self.setcmd(0x18)
+
+    def shr():
+        self.setcmd(0x1C)
+
     def char(self, ch, x=-1, y=0):
         if x>=0:
             a=0x80
