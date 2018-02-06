@@ -2,8 +2,8 @@
 
 All kinds of microbit drives, examples, libraries.
 
-* [sensor](sensor/README.md)
-* [LCD](lcd/README.md)
+* [sensor](sensor)
+* [LCD](lcd)
 * keyboard
 * radio
 * bluetooth
