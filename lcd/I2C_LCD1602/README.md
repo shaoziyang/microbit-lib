@@ -66,3 +66,6 @@ l.puts('Hello microbit!')
 ```
 
 ![](mb_i2c_lcd1602.jpg)
+
+From microbit/micropython Chinese community.  
+www.micropython.org.cn

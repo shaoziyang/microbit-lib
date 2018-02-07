@@ -50,4 +50,5 @@ while 1:
 
 ```
 
-[From microbit/micropython Chinese community](www.micropython.org.cn)
+From microbit/micropython Chinese community.  
+www.micropython.org.cn

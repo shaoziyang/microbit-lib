@@ -9,5 +9,5 @@ All kinds of microbit drives, examples, libraries.
 * bluetooth
 
 
-From microbit/micropython Chinese community.
+From microbit/micropython Chinese community.  
 www.micropython.org.cn
