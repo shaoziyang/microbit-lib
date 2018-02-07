@@ -1,5 +1,5 @@
 """
-    mpy drive for BMP180 Digital Pressure Sensor
+    microbit drive for BMP180 Digital Pressure Sensor
 
     Author: shaoziyang
     Date:   2018.2
@@ -7,14 +7,12 @@
     http://www.micropython.org.cn
 
 """
-import time
-from machine import I2C
+from microbit import *
 
-BMP180_I2C_ADDR = const(0x77)
+BMP180_I2C_ADDR = 0x77
 
 class BMP180():
-    def __init__(self, i2c):
-        self.i2c = i2c
+    def __init__(self):
         self.AC1 = self.short(self.get2Reg(0xAA))
         self.AC2 = self.short(self.get2Reg(0xAC))
         self.AC3 = self.short(self.get2Reg(0xAE))
@@ -40,24 +38,19 @@ class BMP180():
     
     # set reg
     def	setReg(self, reg, dat):
-        buf	= bytearray(2)
-        buf[0] = reg
-        buf[1] = dat
-        self.i2c.writeto(BMP180_I2C_ADDR, buf)
+        i2c.write(BMP180_I2C_ADDR, bytearray([reg, dat]))
 		
     # get reg
     def	getReg(self, reg):
-        buf	= bytearray(1)
-        buf[0] = reg
-        self.i2c.writeto(BMP180_I2C_ADDR, buf)
-        t =	self.i2c.readfrom(BMP180_I2C_ADDR, 1)
+        i2c.write(BMP180_I2C_ADDR, bytearray([reg]))
+        t =	i2c.read(BMP180_I2C_ADDR, 1)
         return t[0]
 	
     # get two reg
     def	get2Reg(self, reg):
-        a = self.getReg(reg)
-        b = self.getReg(reg + 1)
-        return a*256 + b
+        i2c.write(BMP180_I2C_ADDR, bytearray([reg]))
+        t =	i2c.read(BMP180_I2C_ADDR, 2)
+        return t[0]*256 + t[1]
 
     # start measure
     def measure(self):

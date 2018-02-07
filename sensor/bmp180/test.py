@@ -7,13 +7,12 @@
     http://www.micropython.org.cn
 
 '''
-from machine import I2C
-import time
+from microbit import *
 
 import bmp180
 
-b = bmp180.BMP180(I2C(1))
+b = bmp180.BMP180()
 
 while True:
-    time.sleep_ms(500)
+    sleep(500)
     b.get()
