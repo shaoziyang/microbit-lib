@@ -55,10 +55,10 @@ class BMP180():
     # start measure
     def measure(self):
         self.setReg(0xF4, 0x2E)
-        time.sleep_ms(5)
+        sleep(6)
         self.UT = self.get2Reg(0xF6)
         self.setReg(0xF4, 0x34)
-        time.sleep_ms(5)
+        sleep(6)
         self.UP = self.get2Reg(0xF6)
 
     # get Temperature and Pressure
