@@ -39,26 +39,19 @@ class BMP280():
 
 	# set reg
 	def	setReg(self, reg, dat):
-		buf	= bytearray(2)
-		buf[0] = reg
-		buf[1] = dat
-		i2c.write(BMP280_I2C_ADDR, buf)
+        i2c.write(BMP280_I2C_ADDR, bytearray([reg, dat]))
 
 	# get reg
 	def	getReg(self, reg):
-		buf	= bytearray(1)
-		buf[0] = reg
-		i2c.write(BMP280_I2C_ADDR, buf)
-		t =	i2c.read(BMP280_I2C_ADDR, 1)
-		return t[0]
+        i2c.write(BMP280_I2C_ADDR, bytearray([reg]))
+        t = i2c.read(BMP280_I2C_ADDR, 1)
+        return t[0]
 
 	# get two reg
 	def	get2Reg(self, reg):
-		buf	= bytearray(1)
-		buf[0] = reg
-		i2c.write(BMP280_I2C_ADDR, buf)
-		t =	i2c.read(BMP280_I2C_ADDR, 2)
-		return t[1]*256	+ t[0]
+        i2c.write(BMP280_I2C_ADDR, bytearray([reg]))
+        t = i2c.read(BMP280_I2C_ADDR, 2)
+        return t[0] + t[1]*256
 
 	def get(self):
 		adc_T = (self.getReg(0xFA)<<12) + (self.getReg(0xFB)<<4) + (self.getReg(0xFC)>>4)
