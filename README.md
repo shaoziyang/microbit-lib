@@ -4,6 +4,7 @@ All kinds of microbit drives, examples, libraries.
 
 * [sensor](sensor)
 * [LCD](lcd)
+* [Neopixel](neopixel)
 * keyboard
 * radio
 * bluetooth
