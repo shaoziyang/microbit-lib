@@ -9,8 +9,11 @@ class neo16x16:
     def clear(self):
         self.np.clear()
 
-    def set(self, n, dat):
-        self.np[n] = dat
+    def set(self, n, color=''):
+        if color!='':
+            self.np[n] = color
+        else:
+            self.np[n] = self.color
         self.np.show()
 
     def setcolor(self, color):
