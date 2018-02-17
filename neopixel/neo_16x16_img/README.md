@@ -1,4 +1,4 @@
-# micro:bit neopixel 16x16 display drive
+# micro:bit neopixel 16x16 color image display drive
 
 ![](microbit.gif)
 
