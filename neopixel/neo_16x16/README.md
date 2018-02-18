@@ -2,6 +2,8 @@
 
 ![](microbit.gif)
 
+Please use [microbit ToolBox](../../utils/microbit_toolbox) to generation code and data.
+
 
 ## API
 

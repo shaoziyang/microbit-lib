@@ -1,5 +1,6 @@
 # micro:bit neopixel strip drive
 
+Please use [microbit ToolBox](../../utils/microbit_toolbox) to generation code and data.
 
 ![](neo_strip.jpg)  
 

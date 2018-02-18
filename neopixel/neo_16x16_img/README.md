@@ -3,6 +3,8 @@
 ![](microbit.gif)
 
 
+Please use [microbit ToolBox](../../utils/microbit_toolbox) to generation code and data.
+
 ## API
 
 * **clear()**  
@@ -12,6 +14,7 @@ clear all LED
 show color emijo.  
 dat:    color emijo data  
 offset: display offset  
+
 
 
 ![](neo16x16.jpg)  
