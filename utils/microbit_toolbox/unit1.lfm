@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 305
+  Left = 278
   Height = 637
-  Top = 154
+  Top = 172
   Width = 800
   Caption = 'micro:bit ToolBox'
   ClientHeight = 637

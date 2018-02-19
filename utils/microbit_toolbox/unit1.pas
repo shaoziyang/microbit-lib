@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, SynHighlighterPython, SynEdit, Forms, Controls,
   Graphics, Dialogs, ComCtrls, ExtCtrls, StdCtrls, Buttons, LCLIntf,
-  Spin, ExtDlgs, EditBtn, Types, FastIniFile, ucom;
+  Spin, ExtDlgs, EditBtn, Types, TypInfo, IniFiles, ucom;
 
 const
   NEOPIXEL16x16_MAX_TEXTWIDTH = 2048;
@@ -105,21 +105,251 @@ type
 
   end;
 
+  { TIni }
+
+  TIni = class(TIniFile)
+  private
+    function FontToStr(const F: TFont): string;
+    function StrToFont(const FontStr: string; const Default: TFont): TFont;
+    function StyleToStr(const Styles: TFontStyles): string;
+    function StrToStyle(const StyleStr: string): TFontStyles;
+    function PointToStr(const P: TPoint): string;
+    function StrToPoint(const S: string; const Default: TPoint): TPoint;
+    function RectToStr(const R: TRect): string;
+    function StrToRect(const RectStr: string; const Default: TRect): TRect;
+  public
+    function ReadFont(const Section, Ident: string; const Default: TFont): TFont;
+    procedure WriteFont(const Section, Ident: string; const Value: TFont);
+    function ReadPoint(const Section, Ident: string; const Default: TPoint): TPoint;
+    procedure WritePoint(const Section, Ident: string; const Value: TPoint);
+    function ReadRect(const Section, Ident: string; const Default: TRect): TRect;
+    procedure WriteRect(const Section, Ident: string; const Value: TRect);
+    function  ReadReal(const Section, Ident: string; Default: Extended): Extended;
+    procedure WriteReal(const Section, Ident: string; Value: Extended);
+
+  end;
+
 var
   frmMain: TfrmMain;
-  ini: TFastIniFile;
+  ini: TIni;
 
 implementation
 
 {$R *.lfm}
 
+{ TIni }
+
+function TIni.FontToStr(const F: TFont): string;
+begin
+  with F do
+    Result := Format('%s,%d,%s,%s,%d,%d', [Name, Size, StyleToStr(Style),
+      ColorToString(Color), Ord(Pitch), Charset]);
+end;
+
+function TIni.StrToFont(const FontStr: string; const Default: TFont): TFont;
+var
+  S: string;
+  I: integer;
+begin
+  Result := Default;
+  S := FontStr;
+  I := Pos(',', S);
+  if I > 0 then
+  begin
+    Result.Name := Trim(Copy(S, 1, I - 1));
+    Delete(S, 1, I);
+    I := Pos(',', S);
+    if I > 0 then
+    begin
+      Result.Size := StrToIntDef(Trim(Copy(S, 1, I - 1)), Default.Size);
+      Delete(S, 1, I);
+      I := Pos(']', S);
+      if I > 0 then
+      begin
+        Result.Style := StrToStyle(Trim(Copy(S, 1, I)));
+        Delete(S, 1, I + 1);
+        I := Pos(',', S);
+        if I > 0 then
+        begin
+          Result.Color := StringToColor(Trim(Copy(S, 1, I - 1)));
+          Delete(S, 1, I);
+          I := Pos(',', S);
+          if I > 0 then
+          begin
+            Result.Pitch := TFontPitch(StrToIntDef(Trim(Copy(S, 1, I - 1)),
+              Ord(Default.Pitch)));
+            Delete(S, 1, I);
+            Result.CharSet := StrToIntDef(Trim(S), Default.CharSet);
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
+function TIni.StyleToStr(const Styles: TFontStyles): string;
+var
+  Style: TFontStyle;
+begin
+  Result := '[';
+  for Style := Low(Style) to High(Style) do
+  begin
+    if Style in Styles then
+    begin
+      if Length(Result) > 1 then
+        Result := Result + ',';
+      Result := Result + GetEnumname(TypeInfo(TFontStyle), Ord(Style));
+    end;
+  end;
+  Result := Result + ']';
+end;
+
+function TIni.StrToStyle(const StyleStr: string): TFontStyles;
+var
+  I: integer;
+  S: string;
+  SL: TStringList;
+  Style: TFontStyle;
+begin
+  Result := [];
+
+  S := StyleStr;
+  if (Length(S) > 2) and (S[1] = '[') and (S[Length(S)] = ']') then
+    S := Copy(S, 2, Length(S) - 2)
+  else
+    Exit;
+
+  SL := TStringList.Create;
+  try
+    SL.CommaText := S;
+    for I := 0 to SL.Count - 1 do
+      try
+        Style := TFontStyle(GetEnumValue(TypeInfo(TFontStyle), SL[I]));
+        Include(Result, Style);
+      except
+      end;
+  finally
+    SL.Free;
+  end;
+end;
+
+function TIni.PointToStr(const P: TPoint): string;
+begin
+  with P do
+    Result := Format('%d,%d', [X, Y]);
+end;
+
+function TIni.StrToPoint(const S: string; const Default: TPoint): TPoint;
+var
+  I: integer;
+begin
+  I := Pos(',', S);
+  if I = 0 then  // Assume only X is specified
+  begin
+    Result.X := StrToIntDef(S, Default.X);
+    Result.Y := Default.Y;
+  end
+  else
+  begin
+    Result.X := StrToIntDef(Copy(S, 1, I - 1), Default.X);
+    Result.Y := StrToIntDef(Copy(S, I + 1, 255), Default.Y);
+  end;
+end;
+
+function TIni.RectToStr(const R: TRect): string;
+begin
+  with R do
+    Result := Format('%d,%d,%d,%d', [Left, Top, Right, Bottom]);
+end;
+
+function TIni.StrToRect(const RectStr: string; const Default: TRect): TRect;
+var
+  S: string;
+  I: integer;
+begin
+  Result := Default;
+  S := RectStr;
+  I := Pos(',', S);
+  if I > 0 then
+  begin
+    Result.Left := StrToIntDef(Trim(Copy(S, 1, I - 1)), Default.Left);
+    Delete(S, 1, I);
+    I := Pos(',', S);
+    if I > 0 then
+    begin
+      Result.Top := StrToIntDef(Trim(Copy(S, 1, I - 1)), Default.Top);
+      Delete(S, 1, I);
+      I := Pos(',', S);
+      if I > 0 then
+      begin
+        Result.Right := StrToIntDef(Trim(Copy(S, 1, I - 1)), Default.Right);
+        Delete(S, 1, I);
+        Result.Bottom := StrToIntDef(Trim(S), Default.Bottom);
+      end;
+    end;
+  end;
+end;
+
+function TIni.ReadFont(const Section, Ident: string; const Default: TFont): TFont;
+begin
+  Result := StrToFont(ReadString(Section, Ident, FontToStr(Default)), Default);
+end;
+
+procedure TIni.WriteFont(const Section, Ident: string; const Value: TFont);
+begin
+  WriteString(Section, Ident, FontToStr(Value));
+end;
+
+function TIni.ReadPoint(const Section, Ident: string; const Default: TPoint): TPoint;
+begin
+  Result := StrToPoint(ReadString(Section, Ident, PointToStr(Default)), Default);
+end;
+
+procedure TIni.WritePoint(const Section, Ident: string; const Value: TPoint);
+begin
+  WriteString(Section, Ident, PointToStr(Value));
+end;
+
+function TIni.ReadRect(const Section, Ident: string; const Default: TRect): TRect;
+begin
+  Result := StrToRect(ReadString(Section, Ident, RectToStr(Default)), Default);
+
+
+end;
+
+procedure TIni.WriteRect(const Section, Ident: string; const Value: TRect);
+begin
+  WriteString(Section, Ident, RectToStr(Value));
+end;
+
+function TIni.ReadReal(const Section, Ident: string; Default: Extended
+  ): Extended;
+var
+  TempStr: string;
+  ResFloat: Extended;
+  Error: Integer;
+begin
+  Result  := Default;
+  TempStr := ReadString(Section, Ident, '?');
+  if TempStr <> '?' then
+  begin
+    Val(TempStr, ResFloat, Error);
+    if Error = 0 then
+      Result := ResFloat;
+  end;
+end;
+
+procedure TIni.WriteReal(const Section, Ident: string; Value: Extended);
+begin
+  WriteString(Section, Ident, FloatToStrF(Value, ffGeneral, 9, 0));
+end;
+
 { TfrmMain }
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  ini := TFastIniFile.Create(ChangeFileExt(Application.ExeName, '.ini'));
-  BoundsRect := ini.ReadRect('Last', 'Postion', BoundsRect);
-
+  ini := TIni.Create(ChangeFileExt(Application.ExeName, '.ini'));
+  BoundsRect:=ini.ReadRect('Last','Position',Rect(81,50,81+800,51+637));
 end;
 
 procedure TfrmMain.imgNeopixel_16x16Click(Sender: TObject);
@@ -209,7 +439,7 @@ end;
 procedure TfrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   try
-    ini.WriteRect('Last', 'Postion', BoundsRect);
+    ini.WriteRect('Last','Position',BoundsRect);
     ini.WriteInteger('Last', 'Page', pgctMain.ActivePageIndex);
     ini.WriteInteger('Neopixel', 'Page', pgctNeopixel.ActivePageIndex);
 
