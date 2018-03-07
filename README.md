@@ -2,13 +2,13 @@
 
 All kinds of microbit drives, examples, libraries.
 
-* [sensor](sensor)
 * [LCD](lcd)
+* [LED](LED)
+* [sensor](sensor)
 * [Neopixel](neopixel)
 * keyboard
 * radio
 * bluetooth
 * [utils](utils)
 
-From microbit/micropython Chinese community.  
-www.micropython.org.cn
+[From microbit/micropython Chinese community.](http://www.micropython.org.cn)  
