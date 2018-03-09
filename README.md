@@ -10,5 +10,6 @@ All kinds of microbit drives, examples, libraries.
 * radio
 * bluetooth
 * [utils](utils)
+* [misc](misc)
 
 [From microbit/micropython Chinese community.](http://www.micropython.org.cn)  
