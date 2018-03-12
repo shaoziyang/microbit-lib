@@ -35,14 +35,6 @@ get / set second.
 get / set DateTime. If no paramter given, it will return current datetime, otherwise it will set datatime.  
 datatime format: [Year, month, day, weekday, hour, minute, second]
 
-* **Time(dat = None)**  
-get / set Time.  
-Time format: [hour, minute, second]  
-
-* **Date(dat = None)**  
-get / set Date.  
-Date format: [Year, month, day]  
-
 * **Temperature()**  
 get ambient temperature.  
 
