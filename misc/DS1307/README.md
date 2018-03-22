@@ -48,6 +48,7 @@ get / set ram data (56 bytes).
 ## example
 
 ```
+from microbit import *
 import DS1307
 
 ds = DS1307.DS1307()

@@ -6,6 +6,7 @@
 
     http://www.micropython.org.cn
 '''
+from microbit import *
 import DS1307
 
 ds = DS1307.DS1307()
