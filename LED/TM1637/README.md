@@ -5,7 +5,7 @@ Four Digit Display is a Module with four 7-segment LED, it can show number. It h
 This drive base on mcauser's TM1637 LED driver:  
 https://github.com/mcauser/micropython-tm1637  
 
-TM1637 need 5V power supply.  
+Some TM1637 module need 5V power supply.  
 
 ![](4-LED.jpg)
 
