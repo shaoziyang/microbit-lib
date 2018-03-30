@@ -11,15 +11,15 @@ cmd = [
   [0x20, 0x00],   # SSD1306_MEMORYMODE
   [0x21, 0, 127], # SSD1306_COLUMNADDR
   [0x22, 0, 63],  # SSD1306_PAGEADDR
-  [0xa0 | 0x1],   # SSD1306_SEGREMAP
+  [0xA0 | 0x1],   # SSD1306_SEGREMAP
   [0xc8],         # SSD1306_COMSCANDEC
   [0xDA, 0x12],   # SSD1306_SETCOMPINS
   [0x81, 0xCF],   # SSD1306_SETCONTRAST
-  [0xd9, 0xF1],   # SSD1306_SETPRECHARGE
+  [0xD9, 0xF1],   # SSD1306_SETPRECHARGE
   [0xDB, 0x40],   # SSD1306_SETVCOMDETECT
   [0xA6],         # SSD1306_NORMALDISPLAY
-  [0xd6, 1],      # zoom on
-  [0xaf]          # SSD1306_DISPLAYON
+  [0xD6, 1],      # zoom on
+  [0xAF]          # SSD1306_DISPLAYON
 ]
 
 ADDR = 0x3C 
@@ -70,6 +70,12 @@ class OLED12864_I2C():
     for i in range(1, 1025):
       screen[i] = 0
     self.draw()
+
+  def on(self):
+    self.command([0xAF])
+
+  def off(self):
+    self.command([0xAE])
 
   def draw(self):
     self.set_pos()
