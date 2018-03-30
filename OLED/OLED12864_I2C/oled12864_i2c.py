@@ -104,9 +104,13 @@ class OLED12864_I2C():
   def vline(self, x, y, l,c=1):
     d = 1 if l>0 else -1
     for i in range(y, y+l,d):
-      self.pixel(x,i,c,0)
+      self.pixel(x,i,c)
 
   def rect(self, x1,y1,x2,y2,c=1):
+    if x1>x2:
+      x1,x2 = x2,x1
+    if y1>y2:
+      y1,y2 = y2, y1
     self.hline(x1,y1,x2-x1+1,c)
     self.hline(x1,y2,x2-x1+1,c)
     self.vline(x1,y1,y2-y1+1,c)
