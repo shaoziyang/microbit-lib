@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="202"/>
+      <BuildNr Value="210"/>
       <StringTable Comments="www.micropython.org.cn" CompanyName="microbit/micropython Chinese community" FileDescription="micro:bit ToolBox" LegalCopyright="microbit/micropython Chinese community" OriginalFilename="microbitToolBox" ProductName="micro:bit ToolBox" ProductVersion="1.0"/>
     </VersionInfo>
     <BuildModes Count="1">

@@ -63,6 +63,7 @@ type
     ScrollBox2: TScrollBox;
     SynPythonSyn: TSynPythonSyn;
     ToolButton5: TToolButton;
+    ToolButton6: TToolButton;
     TrackBarBrightnessNeopixel: TTrackBar;
     tsNeopixel_16x16_Img: TTabSheet;
     tmrInit: TTimer;
@@ -95,8 +96,11 @@ type
     procedure FormCreate(Sender: TObject);
     procedure imgNeopixel_16x16Click(Sender: TObject);
     procedure tmrInitTimer(Sender: TObject);
+    procedure ToolButton1Click(Sender: TObject);
+    procedure ToolButton2Click(Sender: TObject);
     procedure ToolButton3Click(Sender: TObject);
-    procedure ToolButton5Click(Sender: TObject);
+    procedure ToolButton4Click(Sender: TObject);
+    procedure ToolButton6Click(Sender: TObject);
     procedure TrackBarBrightnessNeopixelChange(Sender: TObject);
   private
     procedure TextImageNoepixel_16x16(Sender: TObject);
@@ -124,8 +128,8 @@ type
     procedure WritePoint(const Section, Ident: string; const Value: TPoint);
     function ReadRect(const Section, Ident: string; const Default: TRect): TRect;
     procedure WriteRect(const Section, Ident: string; const Value: TRect);
-    function  ReadReal(const Section, Ident: string; Default: Extended): Extended;
-    procedure WriteReal(const Section, Ident: string; Value: Extended);
+    function ReadReal(const Section, Ident: string; Default: extended): extended;
+    procedure WriteReal(const Section, Ident: string; Value: extended);
 
   end;
 
@@ -314,7 +318,6 @@ function TIni.ReadRect(const Section, Ident: string; const Default: TRect): TRec
 begin
   Result := StrToRect(ReadString(Section, Ident, RectToStr(Default)), Default);
 
-
 end;
 
 procedure TIni.WriteRect(const Section, Ident: string; const Value: TRect);
@@ -322,14 +325,13 @@ begin
   WriteString(Section, Ident, RectToStr(Value));
 end;
 
-function TIni.ReadReal(const Section, Ident: string; Default: Extended
-  ): Extended;
+function TIni.ReadReal(const Section, Ident: string; Default: extended): extended;
 var
   TempStr: string;
-  ResFloat: Extended;
-  Error: Integer;
+  ResFloat: extended;
+  Error: integer;
 begin
-  Result  := Default;
+  Result := Default;
   TempStr := ReadString(Section, Ident, '?');
   if TempStr <> '?' then
   begin
@@ -339,7 +341,7 @@ begin
   end;
 end;
 
-procedure TIni.WriteReal(const Section, Ident: string; Value: Extended);
+procedure TIni.WriteReal(const Section, Ident: string; Value: extended);
 begin
   WriteString(Section, Ident, FloatToStrF(Value, ffGeneral, 9, 0));
 end;
@@ -349,7 +351,7 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   ini := TIni.Create(ChangeFileExt(Application.ExeName, '.ini'));
-  BoundsRect:=ini.ReadRect('Last','Position',Rect(81,50,81+800,51+637));
+  BoundsRect := ini.ReadRect('Last', 'Position', Rect(81, 50, 81 + 800, 51 + 637));
 end;
 
 procedure TfrmMain.imgNeopixel_16x16Click(Sender: TObject);
@@ -384,14 +386,29 @@ begin
 
 end;
 
+procedure TfrmMain.ToolButton1Click(Sender: TObject);
+begin
+  OpenURL('https://github.com/microbit-makecode-packages');
+end;
+
+procedure TfrmMain.ToolButton2Click(Sender: TObject);
+begin
+  OpenURL('https://github.com/shaoziyang/microbit-lib');
+end;
+
 procedure TfrmMain.ToolButton3Click(Sender: TObject);
 begin
   OpenURL('http://microbit.site');
 end;
 
-procedure TfrmMain.ToolButton5Click(Sender: TObject);
+procedure TfrmMain.ToolButton4Click(Sender: TObject);
 begin
   OpenURL('http://www.micropython.org.cn');
+end;
+
+procedure TfrmMain.ToolButton6Click(Sender: TObject);
+begin
+  OpenURL('https://github.com/shaoziyang/microbit-lib/tree/master/utils/microbit_toolbox');
 end;
 
 procedure TfrmMain.TrackBarBrightnessNeopixelChange(Sender: TObject);
@@ -439,7 +456,7 @@ end;
 procedure TfrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   try
-    ini.WriteRect('Last','Position',BoundsRect);
+    ini.WriteRect('Last', 'Position', BoundsRect);
     ini.WriteInteger('Last', 'Page', pgctMain.ActivePageIndex);
     ini.WriteInteger('Neopixel', 'Page', pgctNeopixel.ActivePageIndex);
 
@@ -700,16 +717,27 @@ end;
 procedure TfrmMain.btnImageFontNeopixel_16x16Click(Sender: TObject);
 var
   w, h, i, j: integer;
+  img:TImage;
 begin
   if dlgOpenImg.Execute then
   begin
-    imgSrcNeopixel_16x16.Stretch := False;
-    imgSrcNeopixel_16x16.Picture.LoadFromFile(dlgOpenImg.FileName);
-    w := imgSrcNeopixel_16x16.Picture.Width;
-    h := imgSrcNeopixel_16x16.Picture.Height;
-    imgSrcNeopixel_16x16.Stretch := True;
-    imgSrcNeopixel_16x16.Height := 16;
-    imgSrcNeopixel_16x16.Width := w * 16 div h;
+    //imgSrcNeopixel_16x16.Stretch := False;
+    //imgSrcNeopixel_16x16.Picture.LoadFromFile(dlgOpenImg.FileName);
+    //w := imgSrcNeopixel_16x16.Picture.Width;
+    //h := imgSrcNeopixel_16x16.Picture.Height;
+    //imgSrcNeopixel_16x16.Stretch := True;
+    //imgSrcNeopixel_16x16.Height := 16;
+    //imgSrcNeopixel_16x16.Width := w * 16 div h;
+    img:=TImage.Create(nil);
+    try
+      img.Picture.LoadFromFile(dlgOpenImg.FileName);
+      imgSrcNeopixel_16x16.Canvas.Brush.Color := 0;
+      imgSrcNeopixel_16x16.Canvas.Clear;
+      imgSrcNeopixel_16x16.Canvas.Draw(0,0,img.Picture.Graphic);
+    finally
+      img.Free;
+    end;
+
     redrawNeopixel_16x16(Sender);
     edtTextNeopixel_16x16.Tag := 1;
   end;
