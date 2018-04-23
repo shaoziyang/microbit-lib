@@ -51,7 +51,7 @@ class LCD1620():
             self.BK=0x08
         else:
             self.BK=0
-        self.setdat(0)
+        self.setcmd(0)
 
     def on(self):
         self.setcmd(0x0C)
