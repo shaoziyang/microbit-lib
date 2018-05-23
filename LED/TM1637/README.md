@@ -30,7 +30,7 @@ turn on display
 * **off()**  
 turn off display  
 
-* **clear（）**  
+* **clear()**  
 clear content of the display  
 
 * **shownum(num)**  
