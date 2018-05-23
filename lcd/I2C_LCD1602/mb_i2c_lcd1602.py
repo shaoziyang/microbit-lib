@@ -59,7 +59,7 @@ class LCD1620():
     def off(self):
         self.setcmd(0x08)
 
-    def shl(():
+    def shl():
         self.setcmd(0x18)
 
     def shr():
