@@ -9,7 +9,7 @@
 * **Temperature()**  
 get envirment temperature 
 
-* **Press()**  
+* **Pressure()**  
 get Pressure
 
 * **Altitude()**  
