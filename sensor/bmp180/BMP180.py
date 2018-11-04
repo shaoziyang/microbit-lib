@@ -28,7 +28,7 @@ class BMP180():
         self.UP = 0
         self.T = 0
         self.P = 0
-        self.version = '2.0'
+        self.version = '2.2'
 
     def short(self, dat):
         if dat > 32767:
@@ -52,18 +52,16 @@ class BMP180():
         t =	i2c.read(BMP180_I2C_ADDR, 2)
         return t[0]*256 + t[1]
 
-    # start measure
-    def measure(self):
+    # get Temperature and Pressure
+    def get(self):
+        # start measure
         self.setReg(0xF4, 0x2E)
         sleep(6)
         self.UT = self.get2Reg(0xF6)
         self.setReg(0xF4, 0x34)
         sleep(6)
         self.UP = self.get2Reg(0xF6)
-
-    # get Temperature and Pressure
-    def get(self):
-        self.measure()
+        # calc
         X1 = (self.UT - self.AC6) * self.AC5/(1<<15)
         X2 = self.MC * (1<<11) / (X1 + self.MD)
         B5 = X1 + X2
@@ -89,16 +87,16 @@ class BMP180():
         return [self.T, self.P]
 
     # get Temperature in Celsius
-    def getTemp(self):
+    def Temperature(self):
         self.get()
         return self.T
         
     # get Pressure in Pa
-    def getPress(self):
+    def Press(self):
         self.get()
         return self.P
     
     # Calculating absolute altitude
-    def getAltitude(self):
-        return 44330*(1-(self.getPress()/101325)**(1/5.255))
-
+    def Altitude(self):
+        self.get()
+        return 44330*(1-(self.P/101325)**(1/5.255))
