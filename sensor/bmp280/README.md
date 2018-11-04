@@ -14,13 +14,13 @@ When SDO is high address is:
 
 ## API
 
-* **getTemp()**  
+* **Temperature()**  
 get envirment temperature 
 
-* **getPress()**  
+* **Pressure()**  
 get Pressure
 
-* **getAltitude()**  
+* **Altitude()**  
 Calculating absolute altitude
 
 * **poweron()**  
