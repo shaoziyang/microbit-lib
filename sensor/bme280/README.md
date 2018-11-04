@@ -17,16 +17,16 @@ When SDO is high address is:
 * **get()**  
 get envirment temperature, pressure and humidity  
 
-* **getTemp()**  
+* **Temperature()**  
 get envirment temperature 
 
-* **getPress()**  
+* **Pressure()**  
 get Pressure
 
-* **getHumi()**  
+* **Humidity()**  
 get Humidity
 
-* **getAltitude()**  
+* **Altitude()**  
 Calculating absolute altitude
 
 * **poweron()**  
