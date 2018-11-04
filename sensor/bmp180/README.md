@@ -6,13 +6,13 @@
 
 ## API
 
-* **getTemp()**  
+* **Temperature()**  
 get envirment temperature 
 
-* **getPress()**  
+* **Press()**  
 get Pressure
 
-* **getAltitude()**  
+* **Altitude()**  
 Calculating absolute altitude
 
 
