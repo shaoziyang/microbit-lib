@@ -8,9 +8,9 @@
 
 '''
 from microbit import *
-import oled12864_i2c
+from oled12864_i2c import OLED12864_I2C
 
-oled = oled12864_i2c.OLED12864_I2C()
+oled = OLED12864_I2C()
 oled.clear()
 oled.rect(0,0,60,30)
 
