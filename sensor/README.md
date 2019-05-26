@@ -5,6 +5,7 @@
 * [BMP280 Digital pressure sensor drive](bmp280)
 * [BME280 humidity and pressure sensor drive](bme280)
 * [APDS9930 Digital Proximity and Ambient Light Sensor](APDS9930)
+* [HCSR04 ultrasonic sensor](HCSR04)
 
 From microbit/micropython Chinese community.  
 www.micropython.org.cn
