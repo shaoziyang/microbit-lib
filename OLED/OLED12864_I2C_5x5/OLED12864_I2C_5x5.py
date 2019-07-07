@@ -27,7 +27,7 @@ screen = bytearray(1025)  # send byte plus pixels
 screen[0] = 0x40
 _ZOOM=1
 
-class OLED12864_I2C():
+class OLED12864_I2C_5x5():
   def __init__(self):
     for c in cmd:
       self.command(c)

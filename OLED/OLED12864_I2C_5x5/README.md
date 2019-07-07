@@ -1,6 +1,6 @@
 # I2C OLED 128x64 Display drive
 
-I2C OLED 128x64 module drive.  
+I2C OLED 128x64 with 5x5 font module drive.  
 
 Part of the drive base on fizban99's microbit OLED driver:  
 https://github.com/fizban99/microbit_ssd1306  
