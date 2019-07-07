@@ -52,9 +52,9 @@ class OLED12864_I2C_5x5():
     self.set_pos(x, page)
     if _ZOOM:
       screen[ind+1]=b
-      i2c.write(0x3c, bytearray([0x40, b, b]))
+      i2c.write(ADDR, bytearray([0x40, b, b]))
     else:
-      i2c.write(0x3c, bytearray([0x40, b]))
+      i2c.write(ADDR, bytearray([0x40, b]))
 
   def zoom(self, d=1):
     global _ZOOM
